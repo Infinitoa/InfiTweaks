@@ -1,2 +1,4 @@
 # InfiTweaks
-Learning how to mod Minecraft with Forge for myself, don't use this =)
+
+
+Learning how to mod Minecraft with Forge for myself, just ignore me derping here=)

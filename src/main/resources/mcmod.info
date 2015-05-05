@@ -1,0 +1,16 @@
+[
+{
+  "modid": "infitweaks",
+  "name": "Infi's Tweaks",
+  "description": "Using this to learn how to mod Minecraft",
+  "version": "0.0.1",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Infinitoa"],
+  "credits": "Pahimar, for his Let's Mod Series",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

@@ -7,6 +7,10 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import infi.mods.infitweaks.init.RegisterItems;
+import infi.mods.infitweaks.items.ItemInfiTweaks;
+import infi.mods.infitweaks.items.ItemPipTools3000;
 import infi.mods.infitweaks.proxies.IProxies;
 import infi.mods.infitweaks.reference.References;
 
@@ -22,19 +26,18 @@ public class InfiTweaks
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		// Initialize Blocks and Items here, also read Configuration here
-		// And register them with GameRegistry
+		RegisterItems.initItems();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		// Initialize Recipes here
+		
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		// Do things that depend on other mods being loaded already
+		
 	}
 }

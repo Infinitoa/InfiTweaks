@@ -1,5 +1,6 @@
 package infi.mods.infiutil;
 
+import infi.mods.infiutil.gui.GuiHandler;
 import infi.mods.infiutil.init.InitItems;
 import infi.mods.infiutil.init.InitRecipes;
 import infi.mods.infiutil.proxies.CommonProxy;
@@ -13,23 +14,25 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = References.MOD_ID, name = References.MOD_NAME, version = References.MOD_VERSION)
-public class InfiTweaks {
+public class InfiUtilities {
+
 	@Instance(References.MOD_ID)
-	public static InfiTweaks instance;
+	public static InfiUtilities instance;
 
 	@SidedProxy(clientSide = References.CLASS_PROXY_CLIENT, serverSide = References.CLASS_PROXY_SERVER)
 	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		
+
 		InitItems.init();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		
+
 		InitRecipes.init();
+		new GuiHandler();
 	}
 
 	@EventHandler

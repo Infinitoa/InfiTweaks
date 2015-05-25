@@ -1,80 +1,51 @@
 package infi.mods.infiutil.items;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import infi.mods.infiutil.init.InitItems;
+import infi.mods.infiutil.InfiUtilities;
 import infi.mods.infiutil.ref.Names;
 
-public class ItemToolBag3000 extends ItemInfiUtilities implements IInventory{
+import java.util.List;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+public class ItemToolBag3000 extends ItemInfiUtilities {
+
 	public ItemToolBag3000() {
-		super();
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(Names.UNLOCALIZED_NAME_TOOLBAG3000);
 	}
-	
+
 	@Override
-	public int getSizeInventory() {
-		return 0;
+	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
+		if (!world.isRemote) {
+			player.openGui(InfiUtilities.instance, 0, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
+			// FMLNetworkHandler.openGui(player, InfiUtilities.instance, 0,
+			// world, (int)player.posX, (int)player.posY, (int)player.posZ);
+		}
+		return itemstack;
 	}
 
 	@Override
-	public ItemStack getStackInSlot(int slot) {
-		return null;
+	public int getMaxItemUseDuration(ItemStack itemstack) {
+		return 1;
 	}
 
 	@Override
-	public ItemStack decrStackSize(int slot, int count) {
-		return null;
+	public void onCreated(ItemStack itemstack, World world, EntityPlayer player) {
+		super.onCreated(itemstack, world, player);
+		itemstack.stackTagCompound = new NBTTagCompound();
+		itemstack.stackTagCompound.setInteger("Identifier", super.getNewID());
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
-		return null;
-	}
-
-	@Override
-	public void setInventorySlotContents(int slot, ItemStack itemstack) {
-		
-	}
-
-	@Override
-	public String getInventoryName() {
-		return null;
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		return false;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 0;
-	}
-
-	@Override
-	public void markDirty() {
-		
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return false;
-	}
-
-	@Override
-	public void openInventory() {
-		
-	}
-
-	@Override
-	public void closeInventory() {
-		
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
-		return itemstack.getUnlocalizedName() == InitItems.toolBag3000.getUnlocalizedName() ? false : true;
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean bool) {
+		if (itemstack.stackTagCompound != null) {
+			info.add("ID: " + itemstack.stackTagCompound.getInteger("Identifier"));
+		}
 	}
 }

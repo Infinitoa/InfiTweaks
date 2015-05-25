@@ -1,12 +1,16 @@
 Changelog for Infi's Utilities
 by Infinitoa
 
+[1.7.10][0.0.5]
+* Various changes in structure again
++ Added Gui for the Toolbag
++ Toolbag now has an Inventory (that can't store items yet)
+
 [1.7.10][0.0.4]
 * Renamed the mod
 * Renamed "Pip Tools 3000" to just "Toolbag 3000"
 * Some changes in mod structure
 * Prepared the Toolbag to become an actual bag
-
 + Added a recipe for the toolbag
 + Added new CreativeTab for this mod
 

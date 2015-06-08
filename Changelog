@@ -1,6 +1,9 @@
 Changelog for Infi's Utilities
 by Infinitoa
 
+[1.7.10][0.0.6]
++ Toolbag now saves its inventory properly
+
 [1.7.10][0.0.5]
 * Various changes in structure again
 + Added Gui for the Toolbag

@@ -45,7 +45,9 @@ public class ContainerToolbag extends Container {
 	
 	@Override
 	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
-		// TODO Prevent the Toolbag from being moved while its inventory is open
+		if( slot >= 0 && getSlot(slot).getStack() == player.getHeldItem() && getSlot(slot) != null) {
+			return null;
+		}
 		return super.slotClick(slot, button, flag, player);
 	}
 

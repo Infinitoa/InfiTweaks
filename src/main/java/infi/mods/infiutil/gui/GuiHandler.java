@@ -20,7 +20,7 @@ public class GuiHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		ItemStack holding = player.getHeldItem();
 		if (holding != null && holding.getItem() instanceof ItemToolBag3000) {
-			return new ContainerToolbag(player, player.inventory, new HeldInventory(player.getHeldItem()));
+			return new ContainerToolbag(player, player.inventory, new HeldInventory(player.getHeldItem(), player.worldObj));
 		}
 		return null;
 	}
@@ -29,7 +29,7 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		ItemStack holding = player.getHeldItem();
 		if (holding != null && holding.getItem() instanceof ItemToolBag3000) {
-			return new GuiToolbag(new ContainerToolbag(player, player.inventory, new HeldInventory(player.getHeldItem())));
+			return new GuiToolbag(new ContainerToolbag(player, player.inventory, new HeldInventory(player.getHeldItem(), player.worldObj)));
 		}
 		return null;
 

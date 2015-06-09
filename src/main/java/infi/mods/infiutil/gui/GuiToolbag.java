@@ -31,4 +31,9 @@ public class GuiToolbag extends GuiContainer {
 		Minecraft.getMinecraft().renderEngine.bindTexture(guiTexture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
+
+	@Override
+	protected void drawGuiContainerForegroundLayer(int x, int y) {
+		// TODO
+	}
 }

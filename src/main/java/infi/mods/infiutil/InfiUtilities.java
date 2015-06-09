@@ -1,6 +1,5 @@
 package infi.mods.infiutil;
 
-import infi.mods.infiutil.gui.GuiHandler;
 import infi.mods.infiutil.init.InitItems;
 import infi.mods.infiutil.init.InitRecipes;
 import infi.mods.infiutil.proxies.CommonProxy;
@@ -12,6 +11,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Mod(modid = References.MOD_ID, name = References.MOD_NAME, version = References.MOD_VERSION)
 public class InfiUtilities {
@@ -32,7 +32,7 @@ public class InfiUtilities {
 	public void init(FMLInitializationEvent event) {
 
 		InitRecipes.init();
-		new GuiHandler();
+		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, this.proxy);
 	}
 
 	@EventHandler

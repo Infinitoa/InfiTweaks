@@ -1,27 +1,43 @@
 package infi.mods.infiutil.inventory;
 
 import infi.mods.infiutil.items.ItemToolBag3000;
+import infi.mods.infiutil.utilities.Utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.world.World;
 
 public class HeldInventory implements IInventory {
 
 	private ItemStack bag;
 	private ItemStack[] contents;
-	private World world;
+	private int UID;
 
-	public HeldInventory(ItemStack itemstack, World world) {
+	public HeldInventory(ItemStack itemstack) {
 		this.bag = itemstack;
 		this.contents = new ItemStack[21];
-		this.world = world;
+		this.UID = Utility.getNewID();
 		if (!itemstack.hasTagCompound()) {
 			itemstack.setTagCompound(new NBTTagCompound());
 		}
+		this.assignNewID();
 		this.readFromNBT(itemstack.getTagCompound());
+	}
+
+	private void assignNewID() {
+		/*
+		 * TODO
+		 * Causes problems, as it is called on both, Client and Server side
+		 * Might result in ID mismatch?
+		 * How to prevent?
+		 */
+		NBTTagCompound compound = bag.getTagCompound();
+		if (!compound.hasKey("Identifier")) {
+			System.out.println("Setting new ID");
+			compound.setInteger("Identifier", this.UID);
+			System.out.println(this.UID);
+		}
 	}
 
 	public void readFromNBT(NBTTagCompound compound) {
@@ -75,7 +91,7 @@ public class HeldInventory implements IInventory {
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
 		ItemStack itemstack = getStackInSlot(slot);
-		this.contents[slot] = null;
+		this.setInventorySlotContents(slot, itemstack);
 		return itemstack;
 	}
 
@@ -112,9 +128,14 @@ public class HeldInventory implements IInventory {
 
 	@Override
 	public void markDirty() {
-		if (!this.world.isRemote) {
-			this.writeToNBT(bag.getTagCompound());
-		}
+		/*
+		 * TODO
+		 * For some reason this is called 2 times for every slot each time the inventory opens(42 times total) 
+		 * on Client side only
+		 * Why? 
+		 * Could this be due to onSlotChanged()?
+		 */
+		this.writeToNBT(bag.getTagCompound());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package infi.mods.infiutil.inventory;
 
+import infi.mods.infiutil.items.ItemToolBag3000;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -34,7 +35,30 @@ public class ContainerToolbag extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int pos) {
+		Slot slot = getSlot(pos);
+		if (slot != null && slot.getHasStack()) {
+			if (!(slot.getStack().getItem() instanceof ItemToolBag3000)) {
+				ItemStack itemstack = slot.getStack();
+				ItemStack returnStack = itemstack.copy();
+				if (pos <= 20) {
+					if (!mergeItemStack(itemstack, 21, 57, false)) {
+						return null;
+					}
+				} else {
+					if (!mergeItemStack(itemstack, 0, 20, false)) {
+						return null;
+					}
+				}
+				if (itemstack.stackSize != 0) {
+					slot.onSlotChanged();
+				} else {
+					slot.putStack(null);
+				}
+				slot.onPickupFromSlot(player, itemstack);
+				return returnStack;
+			}
+		}
 		return null;
 	}
 
@@ -42,10 +66,10 @@ public class ContainerToolbag extends Container {
 	public boolean canInteractWith(EntityPlayer player) {
 		return true;
 	}
-	
+
 	@Override
 	public ItemStack slotClick(int slot, int button, int flag, EntityPlayer player) {
-		if( slot >= 0 && getSlot(slot).getStack() == player.getHeldItem() && getSlot(slot) != null) {
+		if (slot >= 0 && getSlot(slot).getStack() == player.getHeldItem() && getSlot(slot) != null) {
 			return null;
 		}
 		return super.slotClick(slot, button, flag, player);

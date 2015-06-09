@@ -1,6 +1,10 @@
 Changelog for Infi's Utilities
 by Infinitoa
 
+[1.7.10][0.0.7]
++ Added shit-click functionality
+* Moved GUI Handling to proxies
+
 [1.7.10][0.0.6]
 + Toolbag now saves its inventory properly
 

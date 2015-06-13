@@ -12,31 +12,25 @@ public class HeldInventory implements IInventory {
 
 	private ItemStack bag;
 	private ItemStack[] contents;
-	private int UID;
+	private int UID = 0;
+	private boolean isRemote;
 
-	public HeldInventory(ItemStack itemstack) {
+	public HeldInventory(ItemStack itemstack, boolean isRemote) {
 		this.bag = itemstack;
 		this.contents = new ItemStack[21];
-		this.UID = Utility.getNewID();
-		if (!itemstack.hasTagCompound()) {
-			itemstack.setTagCompound(new NBTTagCompound());
+		this.isRemote = isRemote;
+		if (!this.bag.hasTagCompound()) {
+			this.bag.setTagCompound(new NBTTagCompound());
 		}
-		this.assignNewID();
-		this.readFromNBT(itemstack.getTagCompound());
+		// this.assignNewID();
+		this.readFromNBT(this.bag.getTagCompound());
 	}
 
 	private void assignNewID() {
-		/*
-		 * TODO
-		 * Causes problems, as it is called on both, Client and Server side
-		 * Might result in ID mismatch?
-		 * How to prevent?
-		 */
-		NBTTagCompound compound = bag.getTagCompound();
-		if (!compound.hasKey("Identifier")) {
-			System.out.println("Setting new ID");
+		NBTTagCompound compound = this.bag.getTagCompound();
+		if (!compound.hasKey("Identifier") && !isRemote) {
+			this.UID = Utility.getNewID();
 			compound.setInteger("Identifier", this.UID);
-			System.out.println(this.UID);
 		}
 	}
 
@@ -54,7 +48,7 @@ public class HeldInventory implements IInventory {
 	public void writeToNBT(NBTTagCompound compound) {
 		NBTTagList tags = new NBTTagList();
 		for (int i = 0; i < this.getSizeInventory(); i++) {
-			if (this.getStackInSlot(i) != null) {
+			if (this.getStackInSlot(i) != null && this.getStackInSlot(i).stackSize > 0) {
 				NBTTagCompound itemComp = new NBTTagCompound();
 				itemComp.setInteger("Slot", i);
 				this.getStackInSlot(i).writeToNBT(itemComp);
@@ -91,12 +85,15 @@ public class HeldInventory implements IInventory {
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
 		ItemStack itemstack = getStackInSlot(slot);
-		this.setInventorySlotContents(slot, itemstack);
+		this.setInventorySlotContents(slot, null);
 		return itemstack;
 	}
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
+		if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
+			itemstack.stackSize = getInventoryStackLimit();
+		}
 		this.contents[slot] = itemstack;
 		markDirty();
 	}
@@ -108,7 +105,7 @@ public class HeldInventory implements IInventory {
 
 	@Override
 	public String getInventoryName() {
-		return "Toolbag";
+		return "Toolbag 3000";
 	}
 
 	@Override
@@ -128,14 +125,10 @@ public class HeldInventory implements IInventory {
 
 	@Override
 	public void markDirty() {
-		/*
-		 * TODO
-		 * For some reason this is called 2 times for every slot each time the inventory opens(42 times total) 
-		 * on Client side only
-		 * Why? 
-		 * Could this be due to onSlotChanged()?
-		 */
-		this.writeToNBT(bag.getTagCompound());
+		if (isRemote) {
+			return;
+		}
+		this.writeToNBT(this.bag.getTagCompound());
 	}
 
 	@Override

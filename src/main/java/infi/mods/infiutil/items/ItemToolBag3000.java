@@ -2,13 +2,11 @@ package infi.mods.infiutil.items;
 
 import infi.mods.infiutil.InfiUtilities;
 import infi.mods.infiutil.ref.Names;
-import infi.mods.infiutil.utilities.Utility;
 
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 import org.lwjgl.input.Keyboard;
@@ -25,6 +23,11 @@ public class ItemToolBag3000 extends ItemInfiUtilities {
 	}
 
 	@Override
+	public int getMaxItemUseDuration(ItemStack itemstack) {
+		return 1;
+	}
+
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer player) {
 		if (!world.isRemote) {
 			FMLNetworkHandler.openGui(player, InfiUtilities.instance, 0, world, (int) player.posX, (int) player.posY, (int) player.posZ);
@@ -35,7 +38,7 @@ public class ItemToolBag3000 extends ItemInfiUtilities {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean bool) {
-		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
 			if (itemstack.hasTagCompound()) {
 				info.add("ID: " + itemstack.getTagCompound().getInteger("Identifier"));
 			}

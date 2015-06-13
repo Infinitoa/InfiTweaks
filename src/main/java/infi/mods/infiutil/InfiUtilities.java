@@ -1,5 +1,6 @@
 package infi.mods.infiutil;
 
+import infi.mods.infiutil.gui.GuiHandler;
 import infi.mods.infiutil.init.InitItems;
 import infi.mods.infiutil.init.InitRecipes;
 import infi.mods.infiutil.proxies.CommonProxy;
@@ -32,7 +33,7 @@ public class InfiUtilities {
 	public void init(FMLInitializationEvent event) {
 
 		InitRecipes.init();
-		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, this.proxy);
+		NetworkRegistry.INSTANCE.registerGuiHandler(this.instance, new GuiHandler());
 	}
 
 	@EventHandler

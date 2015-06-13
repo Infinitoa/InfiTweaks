@@ -1,6 +1,11 @@
 Changelog for Infi's Utilities
 by Infinitoa
 
+[1.7.10][0.0.8]
+* Fixed a derp that broke the Toolbag
+* Made ClientSide not write to NBT anymore
+* Moved GUI Handling back to seperate class
+
 [1.7.10][0.0.7]
 + Added shit-click functionality
 * Moved GUI Handling to proxies
